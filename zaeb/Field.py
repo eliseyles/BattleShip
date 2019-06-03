@@ -11,6 +11,7 @@ class Field:
         self.__start_x, self.__start_y = start
         self.__squadron = []
         self.__startGame = False
+        self.__ship_located = False
         self.__shipsData = [
             [4, 'fourdeck'],
             [3, 'tripledeck'],
@@ -42,6 +43,7 @@ class Field:
         return arr
 
     def random_location(self):
+        self.clean_field()
         self.matrix = self.create_matrix()
         for i in range(len(self.__shipsData)):
             decks = self.__shipsData[i][0]
@@ -51,6 +53,7 @@ class Field:
                 coord = self.get_coordinates(decks)
                 ship = Ship(coord, decks, sprite, self)
                 self.set_squadron(ship)
+            self.__ship_located = True
 
     def get_random(self, n):
         return randint(0, n)
@@ -72,11 +75,9 @@ class Field:
     def get_coordinates(self, decks):
         x, y, kx, ky = self.generate_coordinates(decks)
 
-        # print((x, y, kx, ky, decks))
         while (self.check_location(x, y, kx, ky, decks)):
             x, y, kx, ky = self.generate_coordinates(decks)
 
-        # print("return", x, y, kx, ky)
         return x, y, kx, ky
 
     def check_location(self, x, y, kx, ky, decks):
@@ -90,13 +91,16 @@ class Field:
         if y == 9 or y - ky + decks * ky == 9:
             to_y -= 1
 
-        # print("square", from_x, from_y, to_x, to_y)
         for i in range(from_x, to_x):
             for j in range(from_y, to_y):
                 if self.matrix[i][j] == 1:
                     return True
 
         return False
+
+    def clean_field(self):
+        self.__squadron.clear()
+        self.matrix.clear()
 
     def draw(self, win):
         win.blit(self.__sprite, (self.__x, self.__y))
