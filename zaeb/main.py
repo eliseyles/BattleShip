@@ -2,6 +2,7 @@ import pygame
 import os
 from const import *
 from Field import *
+import sys
 
 pygame.font.init()
 
@@ -57,17 +58,28 @@ def main(win):
         pygame.display.update()
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                run = False
+
             if event.type == MOUSEBUTTONDOWN:
                 x, y = event.pos
-                if Rect(blitlist[0][1], blitlist[0][2]).collidepoint(x, y):
-                    drawlist[0].random_location()
-                    blitlist.append((START, START_COORD, START_SIZE))
-                if Rect(blitlist[1][1], blitlist[1][2]).collidepoint(x, y):
-                    print("Start")
+                if not drawlist[0].get_state():
+                    if Rect(blitlist[0][1], blitlist[0][2]).collidepoint(x, y):
+                        drawlist[0].random_location()
+                        print("Random")
+                        blitlist.append((START, START_COORD, START_SIZE))
+                    if drawlist[0].get_squadron != [] and Rect(blitlist[1][1], blitlist[1][2]).collidepoint(x, y):
+                        print("Start")
+                        blitlist.clear()
+                        drawlist.append(Field(ENEMY_BOARD, ENEMY_BOARD_COORD, ENEMY_BOARD_START))
+                        drawlist[0].set_state()
+                else:
 
+                    if drawlist[0].get_state() and Rect(drawlist[1].get_start(), drawlist[1].get_end()).collidepoint(x, y):
+                        print(drawlist[1].get_attack_coord((x, y)))
+
+            if event.type == pygame.QUIT:
+                run = False
+                pygame.quit()
+                sys.exit()
 
 
 menu_screen(win)

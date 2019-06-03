@@ -18,6 +18,13 @@ class Field:
             [2, 'doubledeck'],
             [1, 'singledeck']]
         self.matrix = []
+        self.__end = (self.__start_x + self.__field_side, self.__start_y + self.__field_side)
+
+    def get_state(self):
+        return self.__startGame
+
+    def set_state(self):
+        self.__startGame = True
 
     def set_squadron(self, ship):
         self.__squadron.append(ship)
@@ -33,6 +40,12 @@ class Field:
 
     def get_start_y(self):
         return self.__start_y
+
+    def get_start(self):
+        return (self.__start_x, self.__start_y)
+
+    def get_end(self):
+        return self.__end
 
     def create_matrix(self):
         arr = []
@@ -104,3 +117,7 @@ class Field:
 
     def draw(self, win):
         win.blit(self.__sprite, (self.__x, self.__y))
+
+    def get_attack_coord(self, coord):
+        x, y = coord
+        return ((y - self.get_start_y()) // self.get_ship_side(), (x - self.get_start_x()) // self.get_ship_side())
