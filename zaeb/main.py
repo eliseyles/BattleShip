@@ -3,9 +3,11 @@ import os
 from const import *
 from Field import *
 import sys
+from Network import *
 
 pygame.font.init()
 
+global n
 win = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Battleship")
 drawlist = []
@@ -30,12 +32,23 @@ def menu_screen(win):
                 drawlist.append(Field(PLAYER_BOARD, PLAYER_BOARD_COORD, PLAYER_BOARD_START))
                 blitlist.clear()
                 blitlist.append((RANDOM_CHOOSE, RANDOM_CHOOSE_COORD, RANDOM_CHOOSE_SIZE))
-                # drawlist.append(Field(ENEMY_BOARD, ENEMY_BOARD_COORD, ENEMY_BOARD_START))
-                # drawlist[0].random_location()
-                main(win)
-                # x, y = event.pos
-                # if Rect(TITLE_COORD, TITLE_SIZE).collidepoint(x, y):
-                #     print()
+                run = False
+    run = True
+
+    while run:
+        try:
+            print(connect())
+
+            # break
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    run = False
+            run = False
+        except:
+            print("Server Offline")
+
+    main(win)
 
 
 def win_draw(win):
@@ -47,6 +60,12 @@ def win_draw(win):
         frame.draw(win)
         for ship in frame.get_squadron():
             ship.draw(win)
+
+
+def connect():
+    global n
+    n = Network()
+    return n.connect()
 
 
 def main(win):
@@ -64,20 +83,23 @@ def main(win):
                 if not drawlist[0].get_state():
                     if Rect(blitlist[0][1], blitlist[0][2]).collidepoint(x, y):
                         drawlist[0].random_location()
-                        print("Random")
+                        print(n.send("Random"), True)
                         blitlist.append((START, START_COORD, START_SIZE))
-                    if drawlist[0].get_squadron != [] and Rect(blitlist[1][1], blitlist[1][2]).collidepoint(x, y):
-                        print("Start")
-                        blitlist.clear()
-                        drawlist.append(Field(ENEMY_BOARD, ENEMY_BOARD_COORD, ENEMY_BOARD_START))
-                        drawlist[0].set_state()
+                    if drawlist[0].get_squadron() != []:
+                        if Rect(blitlist[1][1], blitlist[1][2]).collidepoint(x, y):
+                            print(n.send("Start"), True)
+                            blitlist.clear()
+                            drawlist.append(Field(ENEMY_BOARD, ENEMY_BOARD_COORD, ENEMY_BOARD_START))
+                            drawlist[0].set_state()
                 else:
 
-                    if drawlist[0].get_state() and Rect(drawlist[1].get_start(), drawlist[1].get_end()).collidepoint(x, y):
-                        print(drawlist[1].get_attack_coord((x, y)))
+                    if drawlist[0].get_state() and Rect(drawlist[1].get_start(), drawlist[1].get_end()).collidepoint(x,
+                                                                                                                     y):
+                        print(n.send(drawlist[1].get_attack_coord((x, y)), True))
 
             if event.type == pygame.QUIT:
                 run = False
+                n.disconnect()
                 pygame.quit()
                 sys.exit()
 
