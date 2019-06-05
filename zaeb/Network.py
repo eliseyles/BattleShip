@@ -8,9 +8,6 @@ class Network:
         self.host = "localhost"
         self.port = 5555
         self.addr = (self.host, self.port)
-        # self.board = self.connect()
-        # self.board = pickle.loads(self.board)
-        #self.connect()
 
     def connect(self):
         self.client.connect(self.addr)
@@ -18,7 +15,7 @@ class Network:
         return data
 
     def disconnect(self):
-        #self.send("close")
+        # self.send("close")
         self.client.close()
 
     def send(self, data):
@@ -28,9 +25,7 @@ class Network:
         """
         try:
             print(data)
-
             self.client.send(pickle.dumps(data))
-
             reply = self.client.recv(1024)
             try:
                 reply = pickle.loads(reply)

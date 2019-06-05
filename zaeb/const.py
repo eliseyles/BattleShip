@@ -13,6 +13,10 @@ START_POINT = (0, 0)
 PATH = "seabattle"
 WHITE = (255, 255, 255)
 
+SERVER = menu_fonts.render("SERVER OFFLINE!", 1, (250, 0, 0))
+SERVER_COORD = (WIDTH / 2 - SERVER.get_width() / 2, 300)
+SERVER_SIZE = SERVER.get_size()
+
 TITLE = menu_fonts.render("Online BattleShip!", 1, (0, 200, 0))
 TITLE_COORD = (WIDTH / 2 - TITLE.get_width() / 2, 100)
 TITLE_SIZE = TITLE.get_size()

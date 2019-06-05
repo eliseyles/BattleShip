@@ -29,9 +29,7 @@ def menu_screen(win):
                 pygame.quit()
                 run = False
             if event.type == MOUSEBUTTONDOWN:
-                drawlist.append(Field(PLAYER_BOARD, PLAYER_BOARD_COORD, PLAYER_BOARD_START))
                 blitlist.clear()
-                blitlist.append((RANDOM_CHOOSE, RANDOM_CHOOSE_COORD, RANDOM_CHOOSE_SIZE))
                 run = False
     run = True
 
@@ -46,8 +44,14 @@ def menu_screen(win):
                     run = False
             run = False
         except:
+            blitlist.append((SERVER, SERVER_COORD, SERVER_SIZE))
+            win_draw(win)
+            pygame.display.update()
             print("Server Offline")
 
+    drawlist.append(Field(PLAYER_BOARD, PLAYER_BOARD_COORD, PLAYER_BOARD_START))
+    blitlist.clear()
+    blitlist.append((RANDOM_CHOOSE, RANDOM_CHOOSE_COORD, RANDOM_CHOOSE_SIZE))
     main(win)
 
 
