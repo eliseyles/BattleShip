@@ -11,7 +11,7 @@ class Network:
 
     def connect(self):
         self.client.connect(self.addr)
-        data = self.send("start")
+        data = self.send(("start"))
         return data
 
     def disconnect(self):

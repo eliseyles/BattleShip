@@ -2,9 +2,6 @@ import socket
 from _thread import *
 import pickle
 import time
-from const import *
-
-from Field import *
 from Game import *
 import sys
 
@@ -12,7 +9,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 server = ""
 port = 5555
-
+game = Game()
 server_ip = socket.gethostbyname(server)
 
 try:
@@ -31,13 +28,17 @@ run = True
 while run:
     try:
 
-        data = conn.recv(1024)
+        data = conn.recv(2048)
         data = pickle.loads(data)
         print(data)
-        if data == "Random":
-            p = Field((0, 0), (0, 0))
-            p.random_location()
-            conn.send(pickle.dumps(p.get_squadron_tup()))
+        if data[0] == "Random":
+            game.random_location(data[1])
+            conn.send(pickle.dumps(game.players[data[1]].get_squadron_tup()))
+        elif data[0] == "Start":
+            game.create_enemy(data[1])
+            conn.send(pickle.dumps("ok"))
+        elif data[0] == "Attack":
+            conn.send(pickle.dumps(game.check_attack(data[1], data[2])))
         else:
             conn.send(pickle.dumps("ok"))
         print("send")
