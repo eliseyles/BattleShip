@@ -27,14 +27,16 @@ print('connected:', addr)
 run = True
 while run:
     try:
-        data = conn.recv(1024)
+
         #print(data.decode())
+        data = conn.recv(1024)
         print(pickle.loads(data))
-        conn.send(str.encode("ok"))
+        conn.send(pickle.dumps("ok"))
         print("send")
-        if not data:
-            run = False
-            break
+        # if not pickle.loads(data) == 'close':
+        #     conn.close()
+        #     run = False
+        #     break
 
     except socket.error as e:
         str(e)

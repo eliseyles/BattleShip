@@ -14,22 +14,23 @@ class Network:
 
     def connect(self):
         self.client.connect(self.addr)
-        data = self.send("start", True)
-        return data.decode()
+        data = self.send("start")
+        return data
 
     def disconnect(self):
+        #self.send("close")
         self.client.close()
 
-    def send(self, data, pick=False):
+    def send(self, data):
         """
         :param data: str
         :return: str
         """
         try:
-            if pick:
-                self.client.send(pickle.dumps(data))
-            else:
-                self.client.send(str.encode(data))
+            print(data)
+
+            self.client.send(pickle.dumps(data))
+
             reply = self.client.recv(1024)
             try:
                 reply = pickle.loads(reply)

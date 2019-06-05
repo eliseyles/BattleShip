@@ -83,11 +83,11 @@ def main(win):
                 if not drawlist[0].get_state():
                     if Rect(blitlist[0][1], blitlist[0][2]).collidepoint(x, y):
                         drawlist[0].random_location()
-                        print(n.send("Random"), True)
+                        print(n.send("Random"))
                         blitlist.append((START, START_COORD, START_SIZE))
                     if drawlist[0].get_squadron() != []:
                         if Rect(blitlist[1][1], blitlist[1][2]).collidepoint(x, y):
-                            print(n.send("Start"), True)
+                            print(n.send("Start"))
                             blitlist.clear()
                             drawlist.append(Field(ENEMY_BOARD, ENEMY_BOARD_COORD, ENEMY_BOARD_START))
                             drawlist[0].set_state()
@@ -95,7 +95,7 @@ def main(win):
 
                     if drawlist[0].get_state() and Rect(drawlist[1].get_start(), drawlist[1].get_end()).collidepoint(x,
                                                                                                                      y):
-                        print(n.send(drawlist[1].get_attack_coord((x, y)), True))
+                        print(n.send(drawlist[1].get_attack_coord((x, y))))
 
             if event.type == pygame.QUIT:
                 run = False
