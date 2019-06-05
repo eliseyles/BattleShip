@@ -49,7 +49,7 @@ def menu_screen(win):
             pygame.display.update()
             print("Server Offline")
 
-    drawlist.append(Field(PLAYER_BOARD, PLAYER_BOARD_COORD, PLAYER_BOARD_START))
+    drawlist.append(Field(PLAYER_BOARD_COORD, PLAYER_BOARD_START))
     blitlist.clear()
     blitlist.append((RANDOM_CHOOSE, RANDOM_CHOOSE_COORD, RANDOM_CHOOSE_SIZE))
     main(win)
@@ -93,7 +93,7 @@ def main(win):
                         if Rect(blitlist[1][1], blitlist[1][2]).collidepoint(x, y):
                             print(n.send("Start"))
                             blitlist.clear()
-                            drawlist.append(Field(ENEMY_BOARD, ENEMY_BOARD_COORD, ENEMY_BOARD_START))
+                            drawlist.append(Field(ENEMY_BOARD_COORD, ENEMY_BOARD_START))
                             drawlist[0].set_state()
                 else:
 

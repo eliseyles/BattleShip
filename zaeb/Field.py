@@ -3,15 +3,16 @@ from Ship import *
 
 
 class Field:
-    def __init__(self, sprite, coord, start):
+    def __init__(self, coord, start):
         self.__field_side = 330
         self.__ship_side = 33
-        self.__sprite = sprite
+        self.__sprite = self.set_sprite()
         self.__x, self.__y = coord
         self.__start_x, self.__start_y = start
         self.__squadron = []
+        self.__sq_tuple = []
         self.__startGame = False
-        self.__ship_located = False
+        #self.__ship_located = False
         self.__shipsData = [
             [4, 'fourdeck'],
             [3, 'tripledeck'],
@@ -20,11 +21,23 @@ class Field:
         self.matrix = []
         self.__end = (self.__start_x + self.__field_side, self.__start_y + self.__field_side)
 
+    def set_sprite(self):
+        return BOARD
+
     def get_state(self):
         return self.__startGame
 
+    def get_ships_data(self):
+        return self.__shipsData
+
     def set_state(self):
         self.__startGame = True
+
+    def set_squadron_tup(self, data):
+        self.__sq_tuple.append(data)
+
+    def get_squadron_tup(self):
+        return self.__sq_tuple
 
     def set_squadron(self, ship):
         self.__squadron.append(ship)
@@ -60,13 +73,16 @@ class Field:
         self.matrix = self.create_matrix()
         for i in range(len(self.__shipsData)):
             decks = self.__shipsData[i][0]
-            sprite = SHIP[i]
 
             for j in range(i + 1):
                 coord = self.get_coordinates(decks)
-                ship = Ship(coord, decks, sprite, self)
+                self.set_squadron_tup((coord, decks))
+                ship = Ship((coord, decks), self)
                 self.set_squadron(ship)
-            self.__ship_located = True
+            # self.__ship_located = True
+        # for i in range(len(tup)):
+        #     ship = Ship(tup[i], self)
+        #     self.set_squadron(ship)
 
     def get_random(self, n):
         return randint(0, n)
@@ -114,6 +130,7 @@ class Field:
     def clean_field(self):
         self.__squadron.clear()
         self.matrix.clear()
+        self.__sq_tuple.clear()
 
     def draw(self, win):
         win.blit(self.__sprite, (self.__x, self.__y))

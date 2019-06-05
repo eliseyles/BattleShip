@@ -33,11 +33,11 @@ START = menu_fonts.render("Start!", 1, (0, 200, 0))
 START_COORD = (WIDTH - START.get_width() - 170, 400)
 START_SIZE = START.get_size()
 
-PLAYER_BOARD = transform.scale(image.load(os.path.join(PATH, "bg_play_field.png")), (358, 358))
+BOARD = transform.scale(image.load(os.path.join(PATH, "bg_play_field.png")), (358, 358))
+
 PLAYER_BOARD_COORD = (42, 73)
 PLAYER_BOARD_START = (66, 99)
 
-ENEMY_BOARD = transform.scale(image.load(os.path.join(PATH, "bg_play_field.png")), (358, 358))
 ENEMY_BOARD_COORD = (471, 73)
 ENEMY_BOARD_START = (495, 99)
 
@@ -51,7 +51,7 @@ SHIP_TWO.set_colorkey((255, 255, 255))
 SHIP_TREE.set_colorkey((255, 255, 255))
 SHIP_FOUR.set_colorkey((255, 255, 255))
 
-SHIP = (SHIP_FOUR, SHIP_TREE, SHIP_TWO, SHIP_ONE)
+SHIP = (SHIP_ONE, SHIP_TWO, SHIP_TREE, SHIP_FOUR)
 
 EMPTY_SHOOT = image.load(os.path.join(PATH, "dot.png"))
 DEAD_SHOOT = image.load(os.path.join(PATH, "cross.png"))

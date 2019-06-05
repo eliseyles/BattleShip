@@ -2,6 +2,9 @@ import socket
 from _thread import *
 import pickle
 import time
+from const import *
+
+from Field import *
 from Game import *
 import sys
 
@@ -28,10 +31,15 @@ run = True
 while run:
     try:
 
-        #print(data.decode())
         data = conn.recv(1024)
-        print(pickle.loads(data))
-        conn.send(pickle.dumps("ok"))
+        data = pickle.loads(data)
+        print(data)
+        if data == "Random":
+            p = Field((0, 0), (0, 0))
+            p.random_location()
+            conn.send(pickle.dumps(p.get_squadron_tup()))
+        else:
+            conn.send(pickle.dumps("ok"))
         print("send")
         # if not pickle.loads(data) == 'close':
         #     conn.close()
@@ -40,7 +48,6 @@ while run:
 
     except socket.error as e:
         str(e)
-
 
 conn.close()
 

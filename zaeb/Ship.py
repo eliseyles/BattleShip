@@ -3,14 +3,18 @@ import pygame
 
 class Ship:
 
-    def __init__(self, coord, decks, sprite, player):
+    def __init__(self, tup, player):
+        coord, decks = tup
         self.__x, self.__y, self.__kx, self.__ky = coord
         self.__decks = decks
-        self.__sprite = sprite
+        self.__sprite = self.set_sprite()
         if self.__kx:
             self.__sprite = pygame.transform.rotate(self.__sprite, 90)
         self.__player = player
         self.create()
+
+    def set_sprite(self):
+        return SHIP[self.__decks-1]
 
     def create(self):
         k = 0
