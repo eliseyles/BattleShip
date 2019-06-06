@@ -30,7 +30,7 @@ while run:
 
         data = conn.recv(2048)
         data = pickle.loads(data)
-        print(data)
+        print("receive from ", addr)
         if data[0] == "Random":
             game.random_location(data[1])
             conn.send(pickle.dumps(game.players[data[1]].get_squadron_tup()))
@@ -41,7 +41,7 @@ while run:
             conn.send(pickle.dumps(game.check_attack(data[1], data[2])))
         else:
             conn.send(pickle.dumps("ok"))
-        print("send")
+        print("send to ", addr)
         # if not pickle.loads(data) == 'close':
         #     conn.close()
         #     run = False

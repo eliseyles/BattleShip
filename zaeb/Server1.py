@@ -26,9 +26,9 @@ games = {}
 idCount = 0
 
 
-def threaded_client(conn, gameId):
+def threaded_client(conn, p, gameId):
     global idCount
-    #conn.send(str.encode(str(p)))
+    # conn.send(str.encode(str(p)))
     # print(conn)
 
     reply = ""
@@ -50,18 +50,18 @@ def threaded_client(conn, gameId):
                     # print(sys.getsizeof(reply))
                     # conn.sendall(pickle.dumps(game))
                     data = pickle.loads(data)
-                    print(data)
+                    print("receive from ", addr, data)
                     if data[0] == "Random":
-                        game.random_location(data[1])
-                        conn.send(pickle.dumps(game.players[data[1]].get_squadron_tup()))
+                        game.random_location(p)
+                        conn.send(pickle.dumps(game.players[p].get_squadron_tup()))
                     elif data[0] == "Start":
-                        game.create_enemy(data[1])
+                        #game.(data[1])
                         conn.send(pickle.dumps("ok"))
                     elif data[0] == "Attack":
-                        conn.send(pickle.dumps(game.check_attack(data[1], data[2])))
+                        conn.send(pickle.dumps(game.check_attack(data[1], p)))
                     else:
                         conn.send(pickle.dumps("ok"))
-                    print("send")
+                    print("send to ", addr)
 
 
             else:
@@ -88,12 +88,15 @@ while True:
 
     idCount += 1
     p = 0
-    gameId = idCount
+    gameId = (idCount - 1) // 2
+    if idCount % 2 == 1:
+        games[gameId] = Game()
+        print("Creating a new game...")
+    else:
+        games[gameId].ready = True
+        p = 1
 
-    games[gameId] = Game()
-    print("Creating a new game...")
-
-    start_new_thread(threaded_client, (conn, gameId))
+    start_new_thread(threaded_client, (conn, p, gameId))
 
 # import socket
 # import sys

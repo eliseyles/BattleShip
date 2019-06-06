@@ -3,8 +3,8 @@ from Field import *
 class Game:
     def __init__(self):
         self.players = [Field((0, 0), (0, 0)), Field((0, 0), (0, 0))]
-        self.p1Went = False
-        self.p2Went = False
+        self.p1Ready = False
+        self.p2Ready = False
         self.ready = False
         #self.id = id
         self.moves = [None, None]
@@ -133,6 +133,7 @@ class Game:
         #     print(i)
 
     def check_attack(self, coord, id):
+        id = 0 if id == 1 else 1
         if self.players[id].matrix[coord[0]][coord[1]] == 1:
             return "shoot"
         else:
