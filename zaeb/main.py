@@ -107,7 +107,7 @@ def main(win):
                                                                                                                      y):
                         data = n.send(("Attack", drawlist[1].get_attack_coord((x, y)), 1)) # TODO change to current
                         ax, ay = drawlist[1].get_attack_coord((x, y))
-                        print(ax, ay)
+                        # print(ax, ay)
                         if data == "shoot":
                             drawlist[1].matrix[ax][ay] = 2
                         else:
@@ -116,9 +116,10 @@ def main(win):
 
             if event.type == pygame.QUIT:
                 run = False
-                n.disconnect()
+                quit()
                 pygame.quit()
-                sys.exit()
+
+    n.disconnect()
 
 
 menu_screen(win)
