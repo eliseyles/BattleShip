@@ -1,15 +1,14 @@
 from Field import *
 
+
 class Game:
     def __init__(self):
         self.players = [Field((0, 0), (0, 0)), Field((0, 0), (0, 0))]
-        self.p1Ready = False
-        self.p2Ready = False
-        self.ready = False
-        #self.id = id
+        self.Ready = [False, False]
         self.moves = [None, None]
         self.wins = [0, 0]
         self.ties = 0
+        self.turn = 0
 
     # def get_player_move(self, p):
     #     """
@@ -76,7 +75,7 @@ class Game:
                 self.players[id].set_squadron_tup((coord, decks))
                 ship = Ship((coord, decks), self.players[id])
                 self.players[id].set_squadron(ship)
-            #self.__ship_located = True
+            # self.__ship_located = True
 
     def get_random(self, n):
         return randint(0, n)
@@ -133,8 +132,17 @@ class Game:
         #     print(i)
 
     def check_attack(self, coord, id):
-        id = 0 if id == 1 else 1
-        if self.players[id].matrix[coord[0]][coord[1]] == 1:
-            return "shoot"
+        if self.turn == id:
+            id = 0 if id == 1 else 1
+
+            if self.players[id].matrix[coord[0]][coord[1]] == 1:
+                return "shoot"
+            else:
+                self.change_turn()
+                return "empty"
+
         else:
-            return "empty"
+            return "not"
+
+    def change_turn(self):
+        self.turn = 1 if self.turn == 0 else 0

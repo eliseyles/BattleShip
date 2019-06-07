@@ -31,7 +31,6 @@ def threaded_client(conn, p, gameId):
     # conn.send(str.encode(str(p)))
     # print(conn)
 
-    reply = ""
     while True:
         try:
             data = conn.recv(2048)
@@ -55,7 +54,7 @@ def threaded_client(conn, p, gameId):
                         game.random_location(p)
                         conn.send(pickle.dumps(game.players[p].get_squadron_tup()))
                     elif data[0] == "Start":
-                        #game.(data[1])
+                        # game.(data[1])
                         conn.send(pickle.dumps("ok"))
                     elif data[0] == "Attack":
                         conn.send(pickle.dumps(game.check_attack(data[1], p)))

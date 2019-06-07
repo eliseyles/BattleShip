@@ -108,10 +108,11 @@ def main(win):
                         data = n.send(("Attack", drawlist[1].get_attack_coord((x, y)), 1)) # TODO change to current
                         ax, ay = drawlist[1].get_attack_coord((x, y))
                         # print(ax, ay)
-                        if data == "shoot":
-                            drawlist[1].matrix[ax][ay] = 2
-                        else:
-                            drawlist[1].matrix[ax][ay] = -1
+                        if data != "not":
+                            if data == "shoot":
+                                drawlist[1].matrix[ax][ay] = 2
+                            else:
+                                drawlist[1].matrix[ax][ay] = -1
 
 
             if event.type == pygame.QUIT:
